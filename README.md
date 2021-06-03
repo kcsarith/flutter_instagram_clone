@@ -1,6 +1,6 @@
 # flutter_instagram_clone
 
-A new Flutter project.
+Uses Firebase.
 
 ## Getting Started
 
