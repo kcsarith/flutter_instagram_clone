@@ -2,7 +2,7 @@
 
 Uses Firebase, BLoC.
 
-This project is current in progress.
+This project is current in progress. Check out the wiki of this repository for more details.
 
 
 # Lessons
