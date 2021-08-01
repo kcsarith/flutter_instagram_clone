@@ -37,8 +37,8 @@ dependencies:
   firebase_core: ^0.5.3 #Core features for firebase that work with flutter.
   firebase_storage: ^5.2.0
 
-  flutter_bloc: ^7.0.0
-  equatable: ^2.0.0 #Used to compared objects
+  flutter_bloc: ^7.1.0
+  equatable: ^2.0.3 #Used to compared objects
 
   image_cropper: ^1.3.1
   image_picker: ^0.6.7+17 #Need to request permission to use photo library.
