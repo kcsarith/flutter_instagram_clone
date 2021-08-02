@@ -1,9 +1,8 @@
 # flutter_instagram_clone
 
-Uses Firebase, BLoC.
+Uses Firebase, BLoC, MVVM
 
 This project is current in progress. Check out the wiki of this repository for more details.
-
 
 # Lessons
 ## Why use Cubit?
