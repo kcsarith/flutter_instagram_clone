@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_instagram_clone/helpers/helpers.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_instagram_clone/screens/profile/bloc/profile_bloc.dart';
 import 'package:flutter_instagram_clone/widgets/error_dialog.dart';
 import 'package:flutter_instagram_clone/widgets/user_profile_image.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'cubit/edit_profile_cubit.dart';
 
 class EditProfileScreenArgs {
@@ -19,18 +16,17 @@ class EditProfileScreenArgs {
 }
 
 class EditProfileScreen extends StatelessWidget {
-  static const String routeName = '/edit-profile';
-
-  EditProfileScreen({Key key, @required this.user}) : super(key: key);
+  static const String routeName = '/editProfile';
 
   static Route route({@required EditProfileScreenArgs args}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (context) => BlocProvider<EditProfileCubit>(
-        create: (context) => EditProfileCubit(
-            userRepository: context.read<UserRepository>(),
-            storageRepository: context.read<StorageRepository>(),
-            profileBloc: args.context.read<ProfileBloc>()),
+        create: (_) => EditProfileCubit(
+          userRepository: context.read<UserRepository>(),
+          storageRepository: context.read<StorageRepository>(),
+          profileBloc: args.context.read<ProfileBloc>(),
+        ),
         child: EditProfileScreen(
             user: args.context.read<ProfileBloc>().state.user),
       ),
@@ -38,14 +34,21 @@ class EditProfileScreen extends StatelessWidget {
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final User user;
+
+  EditProfileScreen({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Edit Profile'),
+          title: Text('Edit Profile'),
         ),
         body: BlocConsumer<EditProfileCubit, EditProfileState>(
           listener: (context, state) {
@@ -53,9 +56,10 @@ class EditProfileScreen extends StatelessWidget {
               Navigator.of(context).pop();
             } else if (state.status == EditProfileStatus.error) {
               showDialog(
-                  context: context,
-                  builder: (context) =>
-                      ErrorDialog(content: state.failure.message));
+                context: context,
+                builder: (context) =>
+                    ErrorDialog(content: state.failure.message),
+              );
             }
           },
           builder: (context, state) {
@@ -87,7 +91,7 @@ class EditProfileScreen extends StatelessWidget {
                                 .read<EditProfileCubit>()
                                 .usernameChanged(value),
                             validator: (value) => value.trim().isEmpty
-                                ? 'Username cannot be empty'
+                                ? 'Username cannot be empty.'
                                 : null,
                           ),
                           const SizedBox(height: 16.0),
@@ -98,17 +102,23 @@ class EditProfileScreen extends StatelessWidget {
                                 .read<EditProfileCubit>()
                                 .bioChanged(value),
                             validator: (value) => value.trim().isEmpty
-                                ? 'Bio cannot be empty'
+                                ? 'Bio cannot be empty.'
                                 : null,
                           ),
-                          const SizedBox(height: 16.0),
-                          RaisedButton(
+                          const SizedBox(height: 28.0),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
                             elevation: 1.0,
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            child: Text('Edit Profile'),
-                            onPressed: () => _submitForm(context,
-                                state.status == EditProfileStatus.submitting),
+                            primary: Theme.of(context).primaryColor,
+                            ),
+                            onPressed: () => _submitForm(
+                              context,
+                              state.status == EditProfileStatus.submitting,
+                            ),
+                            child: const Text(
+                              'Update',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ],
                       ),
@@ -125,7 +135,10 @@ class EditProfileScreen extends StatelessWidget {
 
   void _selectProfileImage(BuildContext context) async {
     final pickedFile = await ImageHelper.pickImageFromGallery(
-        context: context, cropStyle: CropStyle.circle, title: 'Profile Image');
+      context: context,
+      cropStyle: CropStyle.circle,
+      title: 'Profile Image',
+    );
     if (pickedFile != null) {
       context.read<EditProfileCubit>().profileImageChanged(pickedFile);
     }
