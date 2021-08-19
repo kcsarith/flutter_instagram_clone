@@ -59,7 +59,7 @@ class LoginScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
-                              'Goztagram',
+                              'Hamstagram',
                               style: TextStyle(
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.bold,

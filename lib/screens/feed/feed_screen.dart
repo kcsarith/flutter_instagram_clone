@@ -59,7 +59,7 @@ class _FeedScreenState extends State<FeedScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Ratstagram'),
+            title: const Text('Hamstagram'),
             actions: [
               if (state.posts.isEmpty && state.status == FeedStatus.loaded)
                 IconButton(
