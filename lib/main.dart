@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_instagram_clone/blocs/simple_bloc_observer.dart';
 import 'package:flutter_instagram_clone/config/custom_router.dart';
+import 'package:flutter_instagram_clone/cubits/cubits.dart';
 import 'package:flutter_instagram_clone/repositories/repositories.dart';
 import 'package:flutter_instagram_clone/screens/splash/splash_screen.dart';
 
@@ -22,19 +23,29 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AuthRepository().logOut();
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<AuthRepository>(create: (_) => AuthRepository()),
+        RepositoryProvider<UserRepository>(create: (_) => UserRepository()),
+        RepositoryProvider<StorageRepository>(
+            create: (_) => StorageRepository()),
+        RepositoryProvider<PostRepository>(create: (_) => PostRepository()),
+        RepositoryProvider<NotificationRepository>(
+            create: (_) => NotificationRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(create: (context) {
             return AuthBloc(authRepository: context.read());
-          })
+          }),
+          BlocProvider<LikedPostsCubit>(create: (context) {
+            return LikedPostsCubit(
+                postRepository: context.read<PostRepository>(),
+                authBloc: context.read<AuthBloc>());
+          }),
         ],
         child: MaterialApp(
-          title: 'Goztagram',
+          title: 'Hamstagram',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blue,
