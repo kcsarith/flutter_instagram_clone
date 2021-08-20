@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_instagram_clone/config/paths.dart';
 import 'package:flutter_instagram_clone/models/models.dart';
 import 'package:flutter_instagram_clone/repositories/auth/base_auth_repository.dart';
+import 'package:meta/meta.dart';
 
 class AuthRepository extends BaseAuthRepository {
   final FirebaseFirestore _firebaseFirestore;
